@@ -1,0 +1,121 @@
+
+package frc.robot;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
+
+public class Robot extends TimedRobot {
+
+  public PWMVictorSPX solOn = new PWMVictorSPX(1);
+  public PWMVictorSPX solArka = new PWMVictorSPX(2);
+  public SpeedControllerGroup sol = new SpeedControllerGroup(solOn, solArka);
+  
+  public PWMVictorSPX sagOn = new PWMVictorSPX(1);
+  public PWMVictorSPX sagArka = new PWMVictorSPX(2);
+  public SpeedControllerGroup sag = new SpeedControllerGroup(sagOn, sagArka);
+
+  public DifferentialDrive mdrive = new DifferentialDrive(sol, sag);
+
+  public Timer timer = new Timer();
+
+  public Solenoid solen = new Solenoid(1);
+
+  public Joystick cubuk = new Joystick(0);
+
+  public JoystickButton buton1 = new JoystickButton(cubuk, 1);
+  public JoystickButton buton2 = new JoystickButton(cubuk, 2);
+
+  public PWMVictorSPX m_extra = new PWMVictorSPX(3);
+
+
+
+
+  @Override
+  public void robotInit() {
+    //tekli solenoid
+    solen.set(true);
+    solen.set(false);
+
+  }
+
+  @Override
+  public void robotPeriodic() {
+
+  }
+
+ 
+  @Override
+  public void autonomousInit() {
+    timer.reset();
+    timer.start();
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+   if (timer.get() < 4.0) {
+     mdrive.tankDrive(1, 1);
+   }
+   else {
+     mdrive.stopMotor();
+   }
+ 
+  }
+
+  @Override
+  public void teleopInit() {
+    
+    sol.set(0.7);
+    sag.set(0.7);
+  }
+
+  @Override
+  public void teleopPeriodic() {
+
+    mdrive.tankDrive(cubuk.getRawAxis(1),(3));
+    
+    if (buton1.get()) {
+      solen.set(true);
+
+    }
+
+    else {
+      solen.set(false);
+
+    }
+
+    if (buton2.get()) {
+      m_extra.set(1);
+
+    }
+
+      else {
+        m_extra.stopMotor();
+
+      }
+
+    }  
+  
+
+  @Override
+  public void disabledInit() {
+  }
+
+  @Override
+  public void disabledPeriodic() {
+  }
+
+  @Override
+  public void testInit() {
+  }
+
+
+  @Override
+  public void testPeriodic() {
+  }
+}
