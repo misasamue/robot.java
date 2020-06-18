@@ -15,40 +15,25 @@ public class Robot extends TimedRobot {
   public PWMVictorSPX solOn = new PWMVictorSPX(0);
   public PWMVictorSPX solArka = new PWMVictorSPX(1);
   public SpeedControllerGroup sol = new SpeedControllerGroup(solOn, solArka);
-  
   public PWMVictorSPX sagOn = new PWMVictorSPX(2);
   public PWMVictorSPX sagArka = new PWMVictorSPX(3);
   public SpeedControllerGroup sag = new SpeedControllerGroup(sagOn, sagArka);
-
   public DifferentialDrive mdrive = new DifferentialDrive(sol, sag);
-
   public Timer timer = new Timer();
-
   public Solenoid solen = new Solenoid(0);
-
   public Joystick cubuk = new Joystick(0);
-
   public JoystickButton buton1 = new JoystickButton(cubuk, 1);
   public JoystickButton buton2 = new JoystickButton(cubuk, 2);
-
   public PWMVictorSPX m_extra = new PWMVictorSPX(4);
-
-
 
 
   @Override
   public void robotInit() {
-    //tekli solenoid
-    solen.set(true);
-    solen.set(false);
-
   }
 
   @Override
   public void robotPeriodic() {
-
   }
-
  
   @Override
   public void autonomousInit() {
@@ -58,20 +43,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+  
    if (timer.get() < 4.0) {
      mdrive.tankDrive(1, 1);
    }
    else {
      mdrive.stopMotor();
    }
- 
   }
 
   @Override
   public void teleopInit() {
-    
-    sol.set(0.7);
-    sag.set(0.7);
   }
 
   @Override
@@ -81,27 +63,21 @@ public class Robot extends TimedRobot {
     
     if (buton1.get()) {
       solen.set(true);
-
     }
 
     else {
       solen.set(false);
-
     }
 
     if (buton2.get()) {
       m_extra.set(1);
-
     }
 
       else {
         m_extra.stopMotor();
-
       }
-
     }  
   
-
   @Override
   public void disabledInit() {
   }
@@ -113,7 +89,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
   }
-
 
   @Override
   public void testPeriodic() {
